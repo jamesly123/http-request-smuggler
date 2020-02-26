@@ -14,8 +14,8 @@ public abstract class SmuggleScanBox extends Scan {
         super(name);
         Utilities.globalSettings.registerSetting("convert GET to POST", true);
         Utilities.globalSettings.registerSetting("force method name", "");
-        Utilities.globalSettings.registerSetting("fuzz all methods", "");
         Utilities.globalSettings.registerSetting("globally swap - with _", false);
+        Utilities.globalSettings.registerSetting("FUZZ ALL ZE METHODS", false);
         //Utilities.globalSettings.registerSetting("report dodgy findings", false);
 
         DesyncBox.registerPermutation("dualchunk");
@@ -57,16 +57,17 @@ public abstract class SmuggleScanBox extends Scan {
             }
         }
 
-        String forceMethodName = Utilities.globalSettings.getString("force method name");
+        String forceMethodName = Utilities.globalSettings.getString("force method name"); //forceMethodName = User Input of HTTP VERB
         if (!"".equals(forceMethodName)) {
             baseReq = Utilities.setMethod(baseReq, forceMethodName);
         }
 
         //Fuzz all methods - Added code
-        String forceAllMethods = Utilities.globalSettings.getString("fuzz all methods");
-        if (!"".equals(forceAllMethods)) {
-            baseReq = Utilities.setMethod(baseReq, forceMethodName);
+        if (Utilities.globalSettings.getBoolean("FUZZ ALL ZE METHODS")){ //if true (Box is checked)
+
+            baseReq = Utilities.setMethod(baseReq, "HTTPVERBHERE");
         }
+        
 
         return baseReq;
     }
