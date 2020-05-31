@@ -14,12 +14,9 @@ public abstract class SmuggleScanBox extends Scan {
         super(name);
         Utilities.globalSettings.registerSetting("convert GET to POST", true);
         Utilities.globalSettings.registerSetting("force method name", "");
-<<<<<<< HEAD
-=======
         Utilities.globalSettings.registerSetting("FUZZ ALL ZE METHODS", false);
->>>>>>> :(
         Utilities.globalSettings.registerSetting("globally swap - with _", false);
-        Utilities.globalSettings.registerSetting("FUZZ ALL ZE METHODS", false);
+        //Utilities.globalSettings.registerSetting("FUZZ ALL ZE METHODS", false);
         //Utilities.globalSettings.registerSetting("report dodgy findings", false);
 
         DesyncBox.registerPermutation("dualchunk");
@@ -37,6 +34,9 @@ public abstract class SmuggleScanBox extends Scan {
         DesyncBox.registerPermutation("tabsuffix");
         DesyncBox.registerPermutation("accentTE");
         DesyncBox.registerPermutation("accentCH");
+
+        DesyncBox.registerPermutation("new: double-colon");
+        DesyncBox.registerPermutation("new: \\r_middle");
 
         // requires hyphen in target header name
         DesyncBox.registerPermutation("spacejoin1");

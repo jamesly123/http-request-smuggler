@@ -36,6 +36,11 @@ public class DesyncBox {
         registerPermutation("spaceFF");
         registerPermutation("unispace");
         registerPermutation("connection");
+        registerPermutation("new: 7f");
+        registerPermutation("new: 00");
+        registerPermutation("new: 01");
+        registerPermutation("new: 0F");
+        registerPermutation("new: 0d");
 
         for(int i: DesyncBox.getSpecialChars()) {
             registerPermutation("spacefix1:"+i);
@@ -152,6 +157,58 @@ public class DesyncBox {
 
             }
         }
+        if (technique.equals("new: 7f")) {
+            try {
+                ByteArrayOutputStream encoded = new ByteArrayOutputStream();
+                encoded.write((byte) 0x7f);
+                encoded.write("Transfer-Encoding: ".getBytes());
+                encoded.write((byte) 0x7f);
+                transformed = Utilities.replace(request, header.getBytes(), encoded.toByteArray());
+            } catch (IOException e) {
+
+            }
+        }
+        if (technique.equals("new: 00")) {
+            try {
+                ByteArrayOutputStream encoded = new ByteArrayOutputStream();
+                encoded.write((byte) 0x00);
+                encoded.write("Transfer-Encoding: ".getBytes());
+                transformed = Utilities.replace(request, header.getBytes(), encoded.toByteArray());
+            } catch (IOException e) {
+
+            }
+        }
+        if (technique.equals("new: 01")) {
+            try {
+                ByteArrayOutputStream encoded = new ByteArrayOutputStream();
+                encoded.write((byte) 0x01);
+                encoded.write("Transfer-Encoding: ".getBytes());
+                transformed = Utilities.replace(request, header.getBytes(), encoded.toByteArray());
+            } catch (IOException e) {
+
+            }
+        }
+        if (technique.equals("new: 0F")) {
+            try {
+                ByteArrayOutputStream encoded = new ByteArrayOutputStream();
+                encoded.write((byte) 0x0F);
+                encoded.write("Transfer-Encoding: ".getBytes());
+                transformed = Utilities.replace(request, header.getBytes(), encoded.toByteArray());
+            } catch (IOException e) {
+
+            }
+        }
+        if (technique.equals("new: 0d")) {
+            try {
+                ByteArrayOutputStream encoded = new ByteArrayOutputStream();
+                encoded.write("Trans".getBytes());
+                encoded.write((byte) 0x0d);
+                encoded.write("fer-Encoding: ".getBytes());
+                transformed = Utilities.replace(request, header.getBytes(), encoded.toByteArray());
+            } catch (IOException e) {
+
+            }
+        }
 
         if (header.equals("Transfer-Encoding: ")) {
             if (technique.equals("commaCow")) {
@@ -174,7 +231,6 @@ public class DesyncBox {
                 transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "Transfer-Encoding: chunked\t");
             } else if (technique.equals("revdualchunk")) {
                 transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "Transfer-Encoding: identity\r\nTransfer-Encoding: chunked");
-
             } else if (technique.equals("bodysplit")) {
                 transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "X: y");
                 transformed = Utilities.addOrReplaceHeader(transformed, "Foo", "barzxaazz");
@@ -183,6 +239,13 @@ public class DesyncBox {
             } else if (technique.equals("nested")) {
                 transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "Transfer-Encoding: identity, chunked, identity");
             }
+              else if (technique.equals("new: double-colon")) {
+                transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "Transfer-Encoding: :chunked:\r\n");
+            }
+            else if (technique.equals("new: \\r_middle")) {
+                transformed = Utilities.replace(request, "Transfer-Encoding: chunked", "Trans\rfer-Encoding: :chunked\r\n");
+            }
+
 
 
             for (int i: getSpecialChars()) {
